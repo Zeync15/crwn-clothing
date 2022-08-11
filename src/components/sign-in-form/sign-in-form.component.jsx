@@ -20,24 +20,21 @@ const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
-  console.log(formFields);
-
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   };
 
   const signInWithGoogle = async () => {
     // when log signInWithGooglePopUp, there is a user object, and we only need that here. In case you wonder where is {user} came from
-    const { user } = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user);
+    await signInWithGooglePopup();
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await signInAuthUserWithEmailAndPassword(email, password);
-      console.log(response);
+      const { user } = await signInAuthUserWithEmailAndPassword(email, password);
+
       resetFormFields();
     } catch (error) {
       switch (error.code) {
